@@ -1,8 +1,8 @@
 # Detect system OS.
 ifeq ($(OS),Windows_NT)
-    detected_OS := Windows
+	detected_OS := Windows
 else
-    detected_OS := $(shell sh -c 'uname -s 2>/dev/null || echo not')
+	detected_OS := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 endif
 
 # Set the default include path of GNUstep.
