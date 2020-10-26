@@ -56,7 +56,12 @@ all: dynamic
 dynamic: dist/$(DYNAMIC_LIB)
 
 dist/$(DYNAMIC_LIB): $(OBJS)
-	$(CC) -shared -o dist/$(DYNAMIC_LIB) $(OBJS)
+ifeq ($(detected_OS),Darwin)
+	$(CC) -shared -o dist/$(DYNAMIC_LIB) $(OBJS) -lobjc
+else
+	$(CC) -shared -o dist/$(DYNAMIC_LIB) $(OBJS) -lobjc -lgnustep-base \
+		-L $(GNUSTEP_LIB)
+endif
 
 static: dist/$(STATIC_LIB)
 
