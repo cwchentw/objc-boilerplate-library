@@ -54,8 +54,13 @@ Here are the parameters in *Makefile*:
 
 * **LIBRARY**: the name of the compiled library, including *lib* the prefix
 * **C_STD**: the C standard as a GCC C dialect
+* **CXX_STD**: the C++ standard as a GCC C++ dialect
 * **GNUSTEP_INCLUDE**: the include path of GNUstep
 * **GNUSTEP_LIB**: the library path of GNUstep
+
+## Note
+
+C++ and Objective-C++ are supported as well.
 
 ## Copyright
 
