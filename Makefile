@@ -94,42 +94,68 @@ else
 endif
 
 %.o:%.c
+ifeq (,$(MAKECMDGOALS))
+	$(CC) -fPIC -std=$(C_STD) -c $< -o $@ $(CFLAGS) -I include
+else
 ifeq (dynamic,$(MAKECMDGOALS))
 	$(CC) -fPIC -std=$(C_STD) -c $< -o $@ $(CFLAGS) -I include
 else
 	$(CC) -std=$(C_STD) -c $< -o $@ $(CFLAGS) -I include
-endif
+endif  # make dynamic
+endif  # make
 
 %.o:%.cc
+ifeq (,$(MAKECMDGOALS))
+	$(CXX) -fPIC -std=$(CXX_STD) -c $< -o $@ $(CXXFLAGS) -I include
+else
 ifeq (dynamic,$(MAKECMDGOALS))
 	$(CXX) -fPIC -std=$(CXX_STD) -c $< -o $@ $(CXXFLAGS) -I include
 else
 	$(CXX) -std=$(CXX_STD) -c $< -o $@ $(CXXFLAGS) -I include
-endif
+endif  # make dynamic
+endif  # make
 
 %.o:%.cpp
+ifeq (,$(MAKECMDGOALS))
+	$(CXX) -fPIC -std=$(CXX_STD) -c $< -o $@ $(CXXFLAGS) -I include
+else
 ifeq (dynamic,$(MAKECMDGOALS))
 	$(CXX) -fPIC -std=$(CXX_STD) -c $< -o $@ $(CXXFLAGS) -I include
 else
 	$(CXX) -std=$(CXX_STD) -c $< -o $@ $(CXXFLAGS) -I include
-endif
+endif  # make dynamic
+endif  # make
 
 %.o:%.cxx
+ifeq (,$(MAKECMDGOALS))
+	$(CXX) -fPIC -std=$(CXX_STD) -c $< -o $@ $(CXXFLAGS) -I include
+else
 ifeq (dynamic,$(MAKECMDGOALS))
 	$(CXX) -fPIC -std=$(CXX_STD) -c $< -o $@ $(CXXFLAGS) -I include
 else
 	$(CXX) -std=$(CXX_STD) -c $< -o $@ $(CXXFLAGS) -I include
-endif
+endif  # make dynamic
+endif  # make
 
 %.o:%.m
 ifeq ($(detected_OS),Darwin)
+ifeq (,$(MAKECMDGOALS))
+	$(CC) -fPIC -std=$(C_STD) -c $< -o $@ $(CFLAGS) -I include \
+		-fconstant-string-class=NSConstantString
+else
 ifeq (dynamic,$(MAKECMDGOALS))
 	$(CC) -fPIC -std=$(C_STD) -c $< -o $@ $(CFLAGS) -I include \
 		-fconstant-string-class=NSConstantString
 else
 	$(CC) -std=$(C_STD) -c $< -o $@ $(CFLAGS) -I include \
 		-fconstant-string-class=NSConstantString
-endif
+endif  # make dynamic
+endif  # make
+else
+ifeq (,$(MAKECMDGOALS))
+	$(CC) -fPIC -std=$(C_STD) -c $< -o $@ $(CFLAGS) -I include \
+		$(OBJC_INCLUDE) -I $(GNUSTEP_INCLUDE) \
+		-fconstant-string-class=NSConstantString
 else
 ifeq (dynamic,$(MAKECMDGOALS))
 	$(CC) -fPIC -std=$(C_STD) -c $< -o $@ $(CFLAGS) -I include \
@@ -139,18 +165,29 @@ else
 	$(CC) -std=$(C_STD) -c $< -o $@ $(CFLAGS) -I include \
 		$(OBJC_INCLUDE) -I $(GNUSTEP_INCLUDE) \
 		-fconstant-string-class=NSConstantString
-endif
-endif
+endif  # make dynamic
+endif  # make
+endif  # Darwin
 
 %.o:%.mm
 ifeq ($(detected_OS),Darwin)
+ifeq (,$(MAKECMDGOALS))
+	$(CXX) -fPIC -std=$(CXX_STD) -c $< -o $@ $(CXXFLAGS) -I include \
+		-fconstant-string-class=NSConstantString
+else
 ifeq (dynamic,$(MAKECMDGOALS))
 	$(CXX) -fPIC -std=$(CXX_STD) -c $< -o $@ $(CXXFLAGS) -I include \
 		-fconstant-string-class=NSConstantString
 else
 	$(CXX) -std=$(CXX_STD) -c $< -o $@ $(CXXFLAGS) -I include \
 		-fconstant-string-class=NSConstantString
-endif
+endif  # make dynamic
+endif  # make
+else
+ifeq (,$(MAKECMDGOALS))
+	$(CXX) -fPIC -std=$(CXX_STD) -c $< -o $@ $(CXXFLAGS) -I include \
+		$(OBJC_INCLUDE) -I $(GNUSTEP_INCLUDE) \
+		-fconstant-string-class=NSConstantString
 else
 ifeq (dynamic,$(MAKECMDGOALS))
 	$(CXX) -fPIC -std=$(CXX_STD) -c $< -o $@ $(CXXFLAGS) -I include \
@@ -160,8 +197,9 @@ else
 	$(CXX) -std=$(CXX_STD) -c $< -o $@ $(CXXFLAGS) -I include \
 		$(OBJC_INCLUDE) -I $(GNUSTEP_INCLUDE) \
 		-fconstant-string-class=NSConstantString
-endif
-endif
+endif  # make dynamic
+endif  # make
+endif  # Darwin
 
 clean:
 	$(RM) dist/$(DYNAMIC_LIB) dist/$(STATIC_LIB) $(OBJS)
