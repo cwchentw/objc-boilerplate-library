@@ -64,4 +64,4 @@ C++ and Objective-C++ are supported as well.
 
 ## Copyright
 
-Copyright (c) 2020 Michael Chen. Licensed under MIT.
+Copyright (c) 2020-2021 Michelle Chen. Licensed under MIT.
